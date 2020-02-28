@@ -15,5 +15,9 @@ while True:
  data, addr = server_instance.acceptCon()
  print ("Got connection from" + str(addr))
  while True:
-  print(bool(int(data.recv(1).decode())))
+  try:
+   print(bool(int(data.recv(1).decode())))
+  except(ValueError):
+   print("Invalid Input")
+   break
  data.close()
