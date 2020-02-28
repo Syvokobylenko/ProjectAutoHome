@@ -5,11 +5,13 @@ class switchObject():
  def __init__(self, channel):
   self.pin = machine.Pin(channel, machine.Pin.OUT)
 
-def switch(self, state):
- if state:
-  self.pin.on()
- else:
-  self.pin.off()
+ def switch(self, state):
+  if state:
+   print("Turning ON")
+   self.pin.on()
+  else:
+   print("Turning OFF")
+   self.pin.off()
 
 class socketConnection():
  def __init__(self, port):
@@ -27,8 +29,5 @@ while True:
  data, addr = server_instance.acceptCon()
  print ('Got connection from' + str(addr))
  while True:
-  try:
-   switchGPIO0.switch(bool(int(data.recv(1).decode())))
-  except:
-   print(Exception)
+  switchGPIO0.switch(bool(int(data.recv(1).decode())))
  data.close()
