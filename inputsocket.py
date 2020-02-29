@@ -19,7 +19,10 @@ class connection:
   except(KeyboardInterrupt):
    exit
 
-data = connection("127.0.0.1", 2198)
+
 
 while True:
-   data.sendData(input("Type 1 or 0 to use switch: "))
+ state = input("Type 1 or 0 to use switch: ")
+ client_soc = connection("192.168.4.1", 2198)
+ client_soc.sendData(state)
+ client_soc.close()
