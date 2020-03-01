@@ -22,7 +22,7 @@ def credentialsRead(filename):
  file.close()
  return credentials
 
-do_connect(*credentialsRead(wifi.ini))
+do_connect(*credentialsRead("wifi.ini"))
 
 class switchObject():
  def __init__(self, channel):
@@ -39,7 +39,7 @@ class socketConnection():
  def __init__(self, port):
   self.server = socket.socket()
   self.server.bind(("", port))
-  self.server.listen(5)
+  self.server.listen(1)
  def acceptCon(self):
   return self.server.accept()
 
@@ -55,9 +55,13 @@ while True:
    GPIO0Handler.switch(bool(int(data.recv(1).decode())))
   except(ValueError):
    print("Invalid Input")
+   data.close()
    break
-  except(socket.timeout):
+  except(data.timeout):
    print("Timed Out")
    data.close()
    break
- data.close()
+  except:
+   print("Unknown exception")
+   data.close()
+   break
