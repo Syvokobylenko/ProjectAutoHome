@@ -27,13 +27,19 @@ do_connect(*credentialsRead("wifi.ini"))
 class switchObject():
  def __init__(self, channel):
   self.pin = machine.Pin(channel, machine.Pin.OUT)
- def switch(self, state):
-  if state:
-   print("Turning ON")
-   self.pin.on()
-  else:
+  self.state = "1"
+  self.switch()
+ def switch(self):
+  if bool(int(self.state)):
    print("Turning OFF")
+   self.pin.on()
+   self.state = "0"
+   return self.state
+  else:
+   print("Turning ON")
    self.pin.off()
+   self.state = "1"
+   return self.state
 
 class socketConnection():
  def __init__(self, port):
@@ -52,16 +58,14 @@ while True:
  data.settimeout(5)
  while True:
   try:
-   GPIO0Handler.switch(bool(int(data.recv(1).decode())))
+   if not bool(int(data.recv(1).decode())):
+    data.send(GPIO0Handler.switch())
+    data.close()
   except(ValueError):
    print("Invalid Input")
    data.close()
    break
-  except(data.timeout):
+  except(OSError):
    print("Timed Out")
-   data.close()
-   break
-  except:
-   print("Unknown exception")
    data.close()
    break

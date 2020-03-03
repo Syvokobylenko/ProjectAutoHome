@@ -22,7 +22,8 @@ class connection:
 
 
 while True:
- state = input("Type 1 or 0 to use switch: ")
+ state = input("Type 0 to use switch: ")
  client_soc = connection("192.168.0.39", 2198)
  client_soc.sendData(state)
+ print(client_soc.s.recv(1).decode())
  client_soc.s.close()
