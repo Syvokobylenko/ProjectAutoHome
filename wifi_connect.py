@@ -9,3 +9,4 @@ def do_connect(ESSID,password):
         while not sta_if.isconnected():
             pass
         print("network config:", sta_if.ifconfig())
+        return sta_if.ifconfig()
